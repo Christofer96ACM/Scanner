@@ -8,20 +8,49 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Scanner extends AppCompatActivity {
 
     private Button btnScanner;
     private TextView tvBarCode;
+    private TextView tvCodigo;
+    DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mRootChild = mDatabaseReference.child("Codigo");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
         btnScanner = findViewById(R.id.btnScanner);
         tvBarCode = findViewById(R.id.tvBarCode);
+        tvCodigo = findViewById(R.id.tvCodigo);
         btnScanner.setOnClickListener(mOnClickListener);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mRootChild.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String CodigoLeido = dataSnapshot.getValue().toString();
+                tvBarCode.setText(CodigoLeido);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -30,10 +59,17 @@ public class Scanner extends AppCompatActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null)
             if(result.getContents() != null){
-                tvBarCode.setText("El Código es: \n" + result.getContents());
+
+                Map<String,Object> lote = new HashMap<>();
+                lote.put("Codigo",1);
+                lote.put("Lectura",result.getContents());
+
+                tvCodigo.setText("El Código es: \n" + result.getContents());
+                mDatabaseReference.child("Codigo").push().setValue(result.getContents());
+                mDatabaseReference.child("Lotes").push().setValue(lote);
             }
             else{
-                tvBarCode.setText("Error al Escanear");
+                tvCodigo.setText("Error al Escanear");
             }
     }
 

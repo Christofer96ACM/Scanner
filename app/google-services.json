@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "64872800290",
+    "firebase_url": "https://scanner-f16b9.firebaseio.com",
+    "project_id": "scanner-f16b9",
+    "storage_bucket": "scanner-f16b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64872800290:android:9277cd6107ff004f83aa7b",
+        "android_client_info": {
+          "package_name": "com.example.coron.lector_qr_barras"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64872800290-rkq1sig0fah42s0v1hq9i0fcpjtnel49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnDVvvXIIvfjEopIv85vxrfNBWWGmXVvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64872800290-rkq1sig0fah42s0v1hq9i0fcpjtnel49.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
